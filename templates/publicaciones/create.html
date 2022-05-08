@@ -1,0 +1,95 @@
+{% include 'header.html' %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<br>
+<form method="post" action="/store_publicacion" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            Ingresar Publicación
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Datos de la Publicación</h5>
+            <p class="card-text">
+            <div class="form-group">
+                <label for="cbInsumo">Insumo:</label>
+                <select name="cbInsumo" id="cbInsumo" title="Seleccione Un Insumo"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1"
+                    aria-hidden="true">
+                    <option value="-1" selected="selected">Seleccione Un Insumo Médico</option>
+                    {% for fila in insumos %}
+                    <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="radioLugarPropio">Lugar Propio:</label>
+                <input type="checkbox" id="lugarPropio" name="lugarPropio" value="escrito" checked>
+                <label for="radioLugarList">Lugar Listado:</label>
+                <input type="checkbox" id="lugarListado" name="lugarListado" value="listado">
+            </div>
+            <div class="form-group" id="divMostrarLugarPropio">
+                <label for="txtConLugar">Lugar:</label>
+                <input id="txtLugar" class="form-control" type="text" name="txtLugar"
+                    onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    style="text-transform:uppercase; width:100%;" placeholder="Introduzca El Nombre Del Lugar">
+            </div>
+            <div class="form-group" id="divMostrarLugarListado" style="display: none;">
+                <label for="txtSinLugar">Lugar:</label>
+                <select name="cbLugar" id="cbLugar" title="Seleccione Un Lugar"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1"
+                    aria-hidden="true">
+                    <option value="-1" selected="selected">Seleccione Un Lugar</option>
+                    {% for fila in lugares %}
+                    <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="radioDireccionPropio">Direccion Propio:</label>
+                <input type="checkbox" id="direccionPropio" name="direccionPropio" value="escrito" checked>
+                <label for="radioDireccionList">Direccion Listado:</label>
+                <input type="checkbox" id="direccionListado" name="direccionListado" value="listado">
+            </div>
+            <div class="form-group" id="divMostrarDirPropio">
+                <label for="txtDirEscrito">Direccion:</label>
+                <input id="txtDirEscrito" class="form-control" type="text" name="txtDirEscrito"
+                    onkeyup="javascript:this.value=this.value.toUpperCase();"
+                    style="text-transform:uppercase; width:100%;" placeholder="Introduzca La Dirección">
+            </div>
+            <div class="form-group" id="divMostrarDirListado" style="display: none;">
+                <label for="txtDirListado">Direccion:</label>
+                <select name="cbDirListado" id="cbDirListado" title="Seleccione Una Dirección"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1"
+                    aria-hidden="true">
+                    <option value="-1" selected="selected">Seleccione Una Dirección</option>
+                    {% for fila in direcciones %}
+                    <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="txtPrecio">Precio:</label>
+                <input id="txtPrecio" class="form-control" type="text" name="txtPrecio"
+                    placeholder="Introduzca El Precio">
+            </div>
+            <div class="form-group">
+                <label for="txtFoto">Foto:</label>
+                <input id="txtFoto" class="form-control" type="file" name="txtFoto">
+            </div>                     
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Publicar">
+                <a href="{{url_for('index')}}" class="btn btn-primary">Regresar</a>
+            </div>
+            </p>
+        </div>
+    </div>
+</form>
+{% include 'footer.html' %}

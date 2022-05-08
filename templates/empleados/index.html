@@ -1,0 +1,47 @@
+{% include 'header.html' %}
+<br/>
+<a href="{{url_for('create')}}" class="btn btn-success">
+    Ingresar Nueva Publicación
+</a>
+<br/>
+<br/>
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>Foto</th>
+                <th>Nombre Generico</th>
+                <th>Nombre Comercial</th>
+                <th>Forma Farmaceutica / Concentracion</th>                
+                <th>Presentacion</th>
+                <th>Lab/Empresa</th>
+                <th>Nombre Lugar Venta</th>
+                <th>Ubicacion Venta</th>
+                <th>Precio Venta</th>                
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publicacion in publicaciones %}
+            <tr>                
+                <td>{{ publicacion[0] }}</td>
+                <td>
+                    <img class="img-thumbnail" width="100" src="uploads/{{ publicacion[16] }}" alt="">
+                </td>
+                <td>{{ publicacion[1] }}</td>
+                <td>{{ publicacion[2] }}</td>
+                <td>{{ publicacion[3] }} / {{ publicacion[4] }}</td>
+                <td>{{ publicacion[5] }}</td>
+                <td>{{ publicacion[6] }}</td>
+                <td>{{ publicacion[13] }}</td>
+                <td>{{ publicacion[14] }}</td>
+                <td>{{ publicacion[15] }}</td>                
+                <td> <a class="btn btn-warning" href="/edit/{{ publicacion[0]}}">Editar</a> | 
+                    <a onclick="return confirm('¿Desea borrar la publicación?')" class="btn btn-danger" href="/destroy/{{ publicacion[0]}}">Eliminar</a>
+                </td>
+            </tr>    
+            {% endfor %}
+            
+        </tbody>
+    </table>
+{% include 'footer.html' %}    

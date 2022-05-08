@@ -1,0 +1,100 @@
+{% include 'header.html' %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+<br>
+<form method="post" action="/store_insumo" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            Ingresar Insumo
+        </div>        
+        <div class="card-body">
+            <h5 class="card-title">Datos del Insumo</h5>
+            <p class="card-text">                
+                <div class="form-group">
+                    <label for="cbNombreGen">Nombre Genérico:</label>
+                    <select name="cbNombreGen" id="cbNombreGen" title="Seleccione Un Nombre Genérico"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" 
+                    tabindex="-1" aria-hidden="true">
+                        <option value="-1" selected="selected">Seleccione Un Nombre Genérico</option>
+                        {% for fila in nombresGenericos %}
+                        <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cbFormaFarm">Forma Farmacéutica:</label>
+                    <select name="cbFormaFarm" id="cbFormaFarm" title="Seleccione Una Forma Farmacéutica"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" 
+                    tabindex="-1" aria-hidden="true">
+                        <option value="-1" selected="selected">Seleccione Una Forma Farmacéutica</option>
+                        {% for fila in formasFarmaceuticas %}
+                        <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cbConcentracion">Concentración:</label>
+                    <select name="cbConcentracion" id="cbConcentracion" title="Seleccione Una Concentración"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" 
+                    tabindex="-1" aria-hidden="true">
+                        <option value="-1" selected="selected">Seleccione Una Concentración</option>
+                        {% for fila in concentraciones %}
+                        <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cbPresentacion">Presentación:</label>
+                    <select name="cbPresentacion" id="cbPresentacion" title="Seleccione Una Presentación"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" 
+                    tabindex="-1" aria-hidden="true">
+                        <option value="-1" selected="selected">Seleccione Una Presentación</option>
+                        {% for fila in presentaciones %}
+                        <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cbProveedor">Proveedor:</label>
+                    <select name="cbProveedor" id="cbProveedor" title="Seleccione Un Proveedor"
+                    class="form-control select2 select2-hidden-accessible" style="width: 100%;" 
+                    tabindex="-1" aria-hidden="true">
+                        <option value="-1" selected="selected">Seleccione Un Proveedor</option>
+                        {% for fila in proveedores %}
+                        <option value="{{ fila[0] }}">{{ fila[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="txtNombreCom">Nombre Comercial:</label>
+                    <input id="txtNombreCom" class="form-control" type="text" name="txtNombreCom">
+                </div>                                                                
+                <div class="form-group">
+                    <label for="txtPrecUnitMaxLab">Precio Unit. Max. Venta (Laboratorio Nacional):</label>
+                    <input id="txtPrecUnitMaxLab" class="form-control" type="text" name="txtPrecUnitMaxLab">
+                </div>
+                <div class="form-group">
+                    <label for="txtPrecMaxVentaDistrib">Precio Max. Venta (Distribuidora):</label>
+                    <input id="txtPrecMaxVentaDistrib" class="form-control" type="text" name="txtPrecMaxVentaDistrib">
+                </div>
+                <div class="form-group">
+                    <label for="txtPrecUnitMaxPriv">Precio Unit. Max. (Farmacia Privada):</label>
+                    <input id="txtPrecUnitMaxPriv" class="form-control" type="text" name="txtPrecUnitMaxPriv">
+                </div>                
+                <div class="form-group">                    
+                    <input type="submit" class="btn btn-success" value="Registrar">
+                    <a href="{{url_for('insumos')}}" class="btn btn-danger">Cancelar</a>
+                </div>
+            </p>
+        </div>
+    </div>
+</form>
+{% include 'footer.html' %}    

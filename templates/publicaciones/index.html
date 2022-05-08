@@ -1,0 +1,49 @@
+{% include 'header.html' %}
+<br/>
+<a href="{{url_for('create_publicacion')}}" class="btn btn-success">
+    Ingresar Nueva Publicación
+</a>
+<br/>
+<br/>
+
+<table class="table table-light table-striped table-bordered table-condensed">
+        <thead class="thead-light">
+            <tr class="success">
+                <th class="text-center" style="vertical-align: middle;">#</th>
+                <!--<th class="text-center" style="vertical-align: middle;">Foto</th>-->
+                <th class="text-center" style="vertical-align: middle;">Nombre Comercial / Nombre Genérico</th>                
+                <th class="text-center" style="vertical-align: middle;">Forma Farmacéutica / Concentración</th>                
+                <th class="text-center" style="vertical-align: middle;">Presentación</th>
+                <th class="text-center" style="vertical-align: middle;">Laboratorio</th>
+                <th class="text-center" style="vertical-align: middle;">Lugar</th>
+                <th class="text-center" style="vertical-align: middle;">Direccion</th>
+                <th class="text-center" style="vertical-align: middle;">Precio</th>                
+                <th class="text-center" style="vertical-align: middle;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publicacion in publicaciones %}
+            <tr>                
+                <td class="text-center" style="vertical-align: middle;">{{ publicacion[0] }}</td>
+                <!--<td class="text-center" style="vertical-align: middle;">
+                    {% if publicacion[10] == '' %}                        
+                    {% else %}
+                        <img class="img-thumbnail" width="100" src="uploads/{{ publicacion[10] }}" alt="">
+                    {% endif %}                    
+                </td>-->
+                <td class="text-left" style="vertical-align: middle;">{{ publicacion[1] }} / {{ publicacion[2] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ publicacion[3] }} / {{ publicacion[4] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ publicacion[5] }}</td>                
+                <td class="text-left" style="vertical-align: middle;">{{ publicacion[6] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ publicacion[7] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ publicacion[8] }}</td>
+                <td class="text-center" style="vertical-align: middle;">{{ publicacion[9] }}</td>                
+                <td class="text-left" style="vertical-align: middle;"> <a class="btn btn-warning" href="/edit_publicacion/{{ publicacion[0]}}">Editar</a> | 
+                    <a onclick="return confirm('¿Desea borrar la publicación?')" class="btn btn-danger" href="/destroy_publicacion/{{ publicacion[0]}}">Eliminar</a>
+                </td>
+            </tr>    
+            {% endfor %}
+            
+        </tbody>
+    </table>
+{% include 'footer.html' %}    

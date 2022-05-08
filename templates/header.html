@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>ENCUENTRAMED</title>
+    <!-- <link rel="icon" href="favicon.png"> -->
+    <style type="text/css">
+        .btn-xs {
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }        
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script type="text/javascript">        
+        $(document).ready(function () {  
+            $('.select2').select2({
+                closeOnSelect: false
+            });          
+            function load_data(type, insumoId) {
+                $.ajax({
+                    url: "/obtenerFormaFarmaceutica",
+                    method: "POST",
+                    data: { type: type, insumoId: insumoId },
+                    dataType: "json",
+                    success: function (data) { //alert(category_id)
+                        var html = "";
+                        html += '<option value="-1" selected="selected">Seleccione Una Forma Farmacéutica</option>';
+                        for (var count = 0; count < data.length; count++) {
+                            html += '<option value="' + data[count].insumoId + '">' + data[count].formaFarmaceutica + "</option>";
+                        }
+                        if (type == "carData") {
+                            $("#car_brand").html(html);
+                            $("#car_brand").selectpicker("refresh");
+                        } else {
+                            $("#cbFormaFarmaceutica").empty();
+                            $("#cbFormaFarmaceutica").html(html);
+                        }
+                    },
+                });
+            }
+
+            $(document).on("change", "#cbInsumo", function () {
+                var insumoId = $("#cbInsumo").val();
+                load_data("carModeldata", insumoId);
+            });
+
+            $(document).on("change", "#lugarListado", function () {
+                var selLugarListado = $("#lugarListado").is(":checked");
+                if (selLugarListado == true) {
+                    $("#lugarPropio").prop("checked", false);
+                    $('#divMostrarLugarPropio').hide();
+                    $('#divMostrarLugarListado').show();
+                }
+            });
+
+            $(document).on("change", "#lugarPropio", function () {
+                var selLugarPropio = $("#lugarPropio").is(":checked");
+                if (selLugarPropio == true) {
+                    $("#lugarListado").prop("checked", false);
+                    $('#divMostrarLugarListado').hide();
+                    $('#divMostrarLugarPropio').show();
+                }
+            });
+
+            $(document).on("change", "#direccionListado", function () {
+                var selLugarListado = $("#direccionListado").is(":checked");
+                if (selLugarListado == true) {
+                    $("#direccionPropio").prop("checked", false);
+                    $('#divMostrarDirPropio').hide();
+                    $('#divMostrarDirListado').show();
+                }
+            });
+
+            $(document).on("change", "#direccionPropio", function () {
+                var selLugarPropio = $("#direccionPropio").is(":checked");
+                if (selLugarPropio == true) {
+                    $("#direccionListado").prop("checked", false);
+                    $('#divMostrarDirListado').hide();
+                    $('#divMostrarDirPropio').show();
+                }
+            });
+
+        });          
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!--<a class="navbar-brand">ENCUENTRAMED</a>-->
+        <img class="img-fluid" src="{{ url_for('static', filename = 'images/encuentramed.png') }}" width="128"
+            height="128" alt="previous" title="Previous" border="0" />
+        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="my-nav" class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('index')}}">INICIO<span class="sr-only">(current)</span></a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link disabled" href="{{url_for('insumos')}}" tabindex="-1" aria-disabled="true">INSUMO
+                        MÉDICO</a>
+                </li>-->
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="{{url_for('publicaciones')}}" tabindex="-1"
+                        aria-disabled="true">PUBLICACIÓN</a>
+                </li>
+            </ul>
+        </div>
+    </nav>    
+    <div class="container">

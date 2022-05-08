@@ -1,0 +1,45 @@
+{% include 'header.html' %}
+<br/>
+<a href="{{url_for('create_insumo')}}" class="btn btn-success">
+    Ingresar Nuevo Insumo
+</a>
+<br/>
+<br/>
+    <table class="table table-light table-striped table-bordered table-condensed">
+        <thead class="thead-light">
+            <tr class="success">
+                <th class="text-center" style="vertical-align: middle;">#</th>                                
+                <th class="text-center" style="vertical-align: middle;">Nombre Comercial</th>
+                <th class="text-center" style="vertical-align: middle;">Nombre Genérico</th>
+                <th class="text-center" style="vertical-align: middle;">Forma Farmacéutica</th>                
+                <th class="text-center" style="vertical-align: middle;">Concentración</th>
+                <th class="text-center" style="vertical-align: middle;">Presentación</th>
+                <th class="text-center" style="vertical-align: middle;">Empresa Proveedora</th>
+                <th class="text-center" style="vertical-align: middle;">Precio Unitario Máximo Venta (Laboratorio)</th>
+                <th class="text-center" style="vertical-align: middle;">Precio Máximo Venta (Distribuidora)</th>
+                <th class="text-center" style="vertical-align: middle;">Precio Unitario Máximo Venta (Privado)</th>
+                <th class="text-center" style="vertical-align: middle;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>            
+            {% for insumo in insumos %}            
+            <tr>                
+                <td class="text-center" style="vertical-align: middle;">{{ insumo[0] }}</td>                
+                <td class="text-left" style="vertical-align: middle;">{{ insumo[1] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ insumo[5] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ insumo[6] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ insumo[7] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ insumo[8] }}</td>
+                <td class="text-left" style="vertical-align: middle;">{{ insumo[9] }}</td>
+                <td class="text-center" style="vertical-align: middle;">{{ insumo[2] }}</td>
+                <td class="text-center" style="vertical-align: middle;">{{ insumo[3] }}</td>                                
+                <td class="text-center" style="vertical-align: middle;">{{ insumo[4] }}</td>                  
+                <td> <a class="btn btn-xs btn-warning" href="/edit_insumo/{{ insumo[0]}}">Editar</a> | 
+                    <a onclick="return confirm('¿Desea borrar el insumo?')" class="btn btn-danger" href="/destroy_insumo/{{ insumo[0]}}">Eliminar</a>
+                </td>
+            </tr>                
+            {% endfor %}
+            
+        </tbody>
+    </table>
+{% include 'footer.html' %}    
