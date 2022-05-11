@@ -6,7 +6,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.secret_key = "chumacero"
+app.SECRET_KEY = "encuentramed"
 
 mysql= MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
@@ -35,7 +35,9 @@ def getItems(page, keyword = None):
         conn = mysql.connect()
         cursor = conn.cursor() 
         if keyword:
-            sql = sql + " where i.activo = 1 AND pu.activo = 1 AND pu.procesado = 1 AND pu.valido = 1 AND i.nombre_comercial like '%" + keyword + "%' ORDER BY pu.peso_precio DESC"
+            sql = sql + " where i.activo = 1 AND pu.activo = 1 AND pu.procesado = 1 AND pu.valido = 1 AND i.nombre_comercial like '%" + keyword + "%' ORDER BY i.nombre_comercial ASC, pu.peso_precio DESC "
+        else:
+            sql = sql + " where i.activo = 1 AND pu.activo = 1 AND pu.procesado = 1 AND pu.valido = 1 ORDER BY i.nombre_comercial ASC, pu.peso_precio DESC "
         start = (int(page) - 1) * 10
         sql = sql + " limit " + str(start) + ",13"
         cursor.execute(sql)
@@ -191,7 +193,7 @@ def create_publicacion():
     cursor = conn.cursor()
     cursor.execute(sql)
     insumos = cursor.fetchall()
-    conn.commit()
+    conn.commit()    
     sqlLugares = "SELECT l.id as id_lugar, l.nombre as lugar FROM lugar l ORDER BY l.nombre ASC"
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -330,7 +332,7 @@ def storage_publicacion():
         precio_unit_max_priv = float(precios[0][2])
         precioPublicacion = float(_precio)
         #luego actualizamos el peso precio en la publicacion
-        if(precioPublicacion >= precio_max_venta_distr or precioPublicacion <= (precio_unit_max_priv * 2)):
+        if(precioPublicacion >= precio_max_venta_distr and precioPublicacion <= (precio_unit_max_priv * 2)):
             if (precioPublicacion > precio_unit_max_priv):            
                     valor100 = (precio_unit_max_priv * 2) - (precio_unit_max_priv + 0.1)
                     valorCalc1 = (precio_unit_max_priv * 2) - precioPublicacion
@@ -348,6 +350,8 @@ def storage_publicacion():
                 peso_precio = (valorCalc2 * 100) / valor100
             else:
                 peso_precio = 100
+        else:
+            peso_precio = 0
         sql = "UPDATE publicacion p SET p.peso_precio = %s WHERE p.id = %s;"
         datos = (peso_precio, lastPublicacionId)
         conn = mysql.connect()
@@ -356,7 +360,7 @@ def storage_publicacion():
         precios = cursor.fetchall()   
         conn.commit()          
         #poner mensaje de exito de proceso
-    return redirect('/publicaciones')
+    return redirect('/')
 
 @app.route('/store_insumo', methods=['POST'])
 def storage_insumo():    
@@ -382,4 +386,4 @@ def storage_insumo():
     return redirect('/insumos')
 
 if __name__== '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

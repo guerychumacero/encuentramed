@@ -1,38 +1,41 @@
 {% include 'header.html' %}
-{# Título #}
-<h2>BUSCADOR DE INSUMOS FARMACÉUTICOS</h2>
-{# Imagen#}
 <div class="col-md-12">
-    {# buscar la palabra clave#}
-    <div class="row search">
-        <div class="col-lg-6">
-            <div class="input-group">
-                <form action="/busquedas/index">
-                    <div class="col-lg-9">
-                        <input type="text" class="form-control" name="keyword" placeholder="Palabras clave">
+    <div class="card text-black bg-light mb-3">
+        <h6 class="card-header" style="background-color: cadetblue;"><b>BUSCADOR DE INSUMOS FARMACEÚTICOS</b></h6>
+        <div class="card-body">
+            <form action="/busquedas/index">
+                <div class="row text-left" style="vertical-align: middle; font-size: 12px;">
+                    <div class="col-md-6">
+                        <p><b>INSUMO FARMACEÚTICO:</b>
+                            <input type="text" class="form-control" name="keyword" placeholder="Buscar Por Nombre Comercial o Nombre Genérico"
+                                style="width: 100%" id="patron" autofocus="true">
+                        </p>
                     </div>
-                    <div class="col-lg-3">
-                        <span class="input-group-btn">
-                            <input class="btn btn-default" type="submit" value="Buscar" />
-                        </span>
+                    <div class="col-md-6">
+                        <br>
+                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> <b> BUSCAR</b></button>                        
+                        <a href="{{url_for('create_publicacion')}}" class="btn btn-primary"><i class="fa fa-copy"></i> <b>PUBLICAR</b></a>                       
+                        <a href="{{url_for('create_insumo')}}" class="btn btn-danger"><i class="fa fa-plus-circle"></i> <b>INSUMOS</b></a>                       
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
-    {# lista de noticias #}
-    <table class="table mytable-striped">
-        <thead>
+    <table class="table table-responsive table-bordered table-condensed table-hover table-sm"
+    style="font-size: 12px;">
+        <thead class="thead-dark">
             <tr>
-                <th class="text-center" style="vertical-align: middle;">Nombre Comercial / Nombre Genérico</th>
-                <th class="text-center" style="vertical-align: middle;">Forma Farmacéutico / Concentración</th>
-                <th class="text-center" style="vertical-align: middle;">Presentación</th>
-                <th class="text-center" style="vertical-align: middle;">Laboratorio</th>
-                <th class="text-center" style="vertical-align: middle;">Lugar</th>
-                <th class="text-center" style="vertical-align: middle;">Dirección</th>
-                <th class="text-center" style="vertical-align: middle;">Precio</th>
-                <th class="text-center" style="vertical-align: middle;">Fotos</th>
-                <th class="text-center" style="vertical-align: middle;">Puntuación</th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Nombre Comercial / Nombre Genérico
+                </th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Forma Farmacéutico / Concentración
+                </th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Presentación</th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Laboratorio</th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Lugar</th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Dirección</th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Precio</th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Fotos</th>
+                <th class="text-center" style="vertical-align: middle;" scope="col">Puntuación</th>
             </tr>
         </thead>
         <tbody>
@@ -44,11 +47,11 @@
                 <td class="text-left" style="vertical-align: middle;">{{ item[5] }}</td>
                 <td class="text-left" style="vertical-align: middle;">{{ item[6] }}</td>
                 <td class="text-left" style="vertical-align: middle;">{{ item[7] }}</td>
-                <td class="text-center" style="vertical-align: middle;">{{ item[8] }}Bs.</td>
+                <td class="text-center" style="vertical-align: middle;">{{ item[8] }} Bs.</td>
                 <td class="text-center" style="vertical-align: middle;">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Ver
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-eye"></i> <b>Ver</b>
                     </button>
                 </td>
                 <td class="text-center" style="vertical-align: middle; font-size: 12px;">
@@ -64,7 +67,6 @@
         </tbody>
     </table>
 </div>
-{# Página#}
 <nav aria-label="Page navigation">
     <ul class="pagination">
         <li>
