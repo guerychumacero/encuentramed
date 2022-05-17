@@ -15,7 +15,7 @@ app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'sistema'
 mysql.init_app(app)
 
-CARPETA = os.path.join('uploads')
+CARPETA = os.path.join('./uploads')
 app.config['CARPETA'] = CARPETA
 
 @app.route('/busquedas/index')
@@ -31,13 +31,13 @@ def busquedas():
     return render_template('busquedas/index.html', items=items, page=int(page), prange = page_range)    
 
 def getItems(page, keyword = None):
-        sql = "SELECT i.nombre_comercial, n.nombre, f.nombre, c.nombre, p.nombre, pr.nombre, l.nombre, d.nombre, pu.precio, i.id, TRUNCATE((pu.peso_precio/10)/2,0) FROM insumo i INNER JOIN publicacion pu ON pu.id_insumo = i.id INNER JOIN forma_farmaceutica f ON f.id = i.id_forma_farmaceutica INNER JOIN concentracion c ON c.id = i.id_concentracion INNER JOIN presentacion p ON p.id = i.id_presentacion INNER JOIN proveedor pr ON pr.id = i.id_proveedor INNER JOIN nombre_generico n ON n.id = i.id_nombre_generico INNER JOIN lugar l ON l.id = pu.id_lugar INNER JOIN direccion d ON d.id = pu.id_direccion "
+        sql = "SELECT i.nombre_comercial, n.nombre, f.nombre, c.nombre, p.nombre, pr.nombre, l.nombre, d.nombre, pu.precio, i.id, TRUNCATE((((pu.frecuencia * 0.2 + pu.peso_precio * 0.8))/10)/2,0), (pu.frecuencia * 0.2 + pu.peso_precio * 0.8) AS peso_total FROM insumo i INNER JOIN publicacion pu ON pu.id_insumo = i.id INNER JOIN forma_farmaceutica f ON f.id = i.id_forma_farmaceutica INNER JOIN concentracion c ON c.id = i.id_concentracion INNER JOIN presentacion p ON p.id = i.id_presentacion INNER JOIN proveedor pr ON pr.id = i.id_proveedor INNER JOIN nombre_generico n ON n.id = i.id_nombre_generico INNER JOIN lugar l ON l.id = pu.id_lugar INNER JOIN direccion d ON d.id = pu.id_direccion "
         conn = mysql.connect()
         cursor = conn.cursor() 
         if keyword:
-            sql = sql + " where i.activo = 1 AND pu.activo = 1 AND pu.procesado = 1 AND pu.valido = 1 AND i.nombre_comercial like '%" + keyword + "%' ORDER BY i.nombre_comercial ASC, pu.peso_precio DESC "
+            sql = sql + " where i.activo = 1 AND pu.activo = 1 AND pu.procesado = 1 AND pu.valido = 1 AND i.nombre_comercial like '%" + keyword + "%' ORDER BY i.nombre_comercial ASC, peso_total DESC "
         else:
-            sql = sql + " where i.activo = 1 AND pu.activo = 1 AND pu.procesado = 1 AND pu.valido = 1 ORDER BY i.nombre_comercial ASC, pu.peso_precio DESC "
+            sql = sql + " where i.activo = 1 AND pu.activo = 1 AND pu.procesado = 1 AND pu.valido = 1 ORDER BY i.nombre_comercial ASC, peso_total DESC "
         start = (int(page) - 1) * 10
         sql = sql + " limit " + str(start) + ",13"
         cursor.execute(sql)

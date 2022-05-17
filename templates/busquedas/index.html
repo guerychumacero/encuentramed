@@ -1,20 +1,22 @@
 {% include 'header.html' %}
 <div class="col-md-12">
     <div class="card text-black bg-light mb-3">
-        <h6 class="card-header" style="background-color: cadetblue;"><b>BUSCADOR DE INSUMOS FARMACEÚTICOS</b></h6>
+        <h6 class="card-header" style="background-color: #2A5491 !important; color: #ffffff;">
+            <b>BUSCADOR DE MEDICAMENTOS</b>
+        </h6>
         <div class="card-body">
             <form action="/busquedas/index">
                 <div class="row text-left" style="vertical-align: middle; font-size: 12px;">
                     <div class="col-md-6">
-                        <p><b>INSUMO FARMACEÚTICO:</b>
-                            <input type="text" class="form-control" name="keyword" placeholder="Buscar Por Nombre Comercial o Nombre Genérico"
+                        <p><b>MEDICAMENTO:</b>
+                            <input type="text" class="form-control" name="keyword" placeholder="Buscar Por Nombre Del Medicamento"
                                 style="width: 100%" id="patron" autofocus="true">
                         </p>
                     </div>
                     <div class="col-md-6">
                         <br>
-                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> <b> BUSCAR</b></button>                        
-                        <a href="{{url_for('create_publicacion')}}" class="btn btn-primary"><i class="fa fa-copy"></i> <b>PUBLICAR</b></a>                       
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> <b> BUSCAR</b></button>                        
+                        <a href="{{url_for('create_publicacion')}}" class="btn btn-success"><i class="fa fa-copy"></i> <b>PUBLICAR</b></a>                       
                         <a href="{{url_for('create_insumo')}}" class="btn btn-danger"><i class="fa fa-plus-circle"></i> <b>INSUMOS</b></a>                       
                     </div>
                 </div>
@@ -60,7 +62,8 @@
                     {% endfor %}
                     {% for i in range(1,((5-item[10]+1)|int)) %}
                     <span class="fas fa-star" style="cursor: pointer; color: black;"></span>
-                    {% endfor %}
+                    {% endfor %}  
+                    {{ item[11] }}                                      
                 </td>
             </tr>
             {% endfor %}

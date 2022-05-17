@@ -29,12 +29,9 @@
             margin-bottom: 1px;
         }
 
-        h2 {
-            padding-left: 10px;            
-            padding-bottom: 6px;
-            margin-bottom: 20px;
-            margin-top: 30px;
-            color: #ffffff;
+        h6 {
+            margin: 10px;
+            color: #000000;
         }
 
         thead tr th {
@@ -62,7 +59,7 @@
         header {
             display: flex;
             min-height: 70px;
-            background-color: #007b5e;
+            background-color: #ffffff;
             justify-content: space-between;
             align-items: center;
             padding: 0px;
@@ -90,13 +87,13 @@
 
         section .section-title {
             text-align: center;
-            color: #007b5e;
+            color: #2A5491;
             margin-bottom: 50px;
             text-transform: uppercase;
         }
 
         #footer {
-            background: #007b5e !important;
+            background: #2A5491 !important;
         }
 
         #footer h5 {
@@ -139,7 +136,7 @@
         }
 
         #footer ul.social li a,
-        #footer ul.quick-links li a {
+        #footer ul.quick-links li {
             color: #ffffff;
         }
 
@@ -154,18 +151,8 @@
             transition: .5s all ease;
         }
 
-        #footer ul.quick-links li:hover {
-            padding: 3px 0;
-            margin-left: 5px;
-            font-weight: 700;
-        }
-
         #footer ul.quick-links li a i {
             margin-right: 5px;
-        }
-
-        #footer ul.quick-links li:hover a i {
-            font-weight: 700;
         }
 
         @media (max-width:767px) {
@@ -255,9 +242,20 @@
 <body>
     <header>
         <div class="logo">
-            <img src="{{ url_for('static', filename = 'images/encuentramed.png') }}" class="logo-img"
-                style="margin-bottom: -90px; margin-top: -90px;">
-                <h2 style="font-family: Courier New;"><b>Justo Lo Que Necesitas!</b></h2>
+            <div class="row">
+                <div class="col-md-3 align-middle text-center">
+                    <img src="{{ url_for('static', filename = 'images/encuentramed.png') }}" class="logo-img"
+                        style="margin-bottom: -90px; margin-top: -90px;">
+                </div>
+                <div class="col-md-9 align-middle text-justify">
+                    <br>            
+                    <h6 style="font-family: Courier New;"><b>Es una página web retroalimentada gracias a las
+                            publicaciones de
+                            ustedes. Con su publicación indicándonos dónde compró su medicamento y a qué precio, ayuda a
+                            que
+                            otra persona encuentre su medicamento más económico y en menor tiempo.</b></h6>
+                </div>
+            </div>
         </div>
     </header>
     <div class="row">
