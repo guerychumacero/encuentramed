@@ -18,11 +18,22 @@
             </div>
             <div class="card-body">
                 <div class="row">
+                    <div class="col-md-12">
+                        <p><b>
+                                (<strong class="etiqueta_roja">*</strong>)
+                                Datos Obligatorios.
+                            </b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
-                        <p><b>MEDICAMENTO:</b>
+                        <p><b>MEDICAMENTO: <strong class="etiqueta_roja"> *</strong></b>
                             <select name="cbInsumo" id="cbInsumo" title="Seleccione Un Insumo"
-                                class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                                tabindex="-1" aria-hidden="true">
+                                class="form-control select2 select2-hidden-accessible"
+                                style="text-transform:uppercase; width: 100%;"
+                                onkeyup="javascript:this.value=this.value.toUpperCase();" tabindex="-1"
+                                aria-hidden="true">
                                 <option value="-1" selected="selected">Seleccione Un Medicamento</option>
                                 {% for fila in insumos %}
                                 <option value="{{ fila[0] }}">{{ fila[1] }}</option>
@@ -30,37 +41,30 @@
                             </select>
                         </p>
                     </div>
-                    <div class="col-md-6">
-                        <p><b>PRECIO:</b> (Ayudará a comparar los precios con otros medicamentos)
-                            <input id="txtPrecio" class="form-control" type="text" name="txtPrecio"
-                                placeholder="Introduzca El Precio En Bs." style="width: 100%;">
+                    <div class="col-md-5">
+                        <!-- validar los signos + y - -->
+                        <p><b>PRECIO:</b> <strong class="etiqueta_roja"> *</strong> (Ayudará a comparar los precios con
+                            otros medicamentos)
+                            <input type="number" id="txtPrecio" class="form-control" name="txtPrecio" value=""
+                                autocomplete="off" required min="1" placeholder="1 Bs.-" maxlength="7" step="0.01"
+                                onkeypress="return validar_input_numeros(this.value);"
+                                style="width: 100%; font-size: 14px;">
                         </p>
+                    </div>
+                    <div class="col-md-1 text-left">
+                        <br>
+                        <p style="margin-top: 10px;">(en Bs.-)</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <p><b>¿DÓNDE LO COMPRASTE?</b></p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p><b>Registra un lugar nuevo:</b>
-                                    <input type="checkbox" id="lugarPropio" name="lugarPropio" value="escrito" checked>
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <p><b>Selecciona el lugar:</b>
-                                    <input type="checkbox" id="lugarListado" name="lugarListado" value="listado">
-                                </p>
-                            </div>
-                        </div>
-                        <p id="divMostrarLugarPropio">
-                            <input id="txtLugar" class="form-control" type="text" name="txtLugar"
-                                onkeyup="javascript:this.value=this.value.toUpperCase();" style="width:100%;"
-                                placeholder="Introduzca El Nombre Del Lugar">
-                        </p>
-                        <p id="divMostrarLugarListado" style="display: none;">
+                        <p>
+                            <b>¿DÓNDE LO COMPRASTE?</b><strong class="etiqueta_roja"> *</strong>
                             <select name="cbLugar" id="cbLugar" title="Seleccione Un Lugar"
-                                class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                                tabindex="-1" aria-hidden="true">
+                                class="form-control select2 select2-hidden-accessible"
+                                style="text-transform:uppercase; width: 100%;"
+                                onkeyup="javascript:this.value=this.value.toUpperCase();" tabindex="-1"
+                                aria-hidden="true">
                                 <option value="-1" selected="selected">Seleccione Un Lugar</option>
                                 {% for fila in lugares %}
                                 <option value="{{ fila[0] }}">{{ fila[1] }}</option>
@@ -69,30 +73,13 @@
                         </p>
                     </div>
                     <div class="col-md-6">
-                        <p><b>¿EN QUÉ DIRECCIÓN LO COMPRASTE?</b></p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p><b>Registra Una Nueva Dirección:</b>
-                                    <input type="checkbox" id="direccionPropio" name="direccionPropio" value="escrito"
-                                        checked>
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <p><b>Selecciona La Dirección:</b>
-                                    <input type="checkbox" id="direccionListado" name="direccionListado"
-                                        value="listado">
-                                </p>
-                            </div>
-                        </div>
-                        <p id="divMostrarDirPropio">
-                            <input id="txtDirEscrito" class="form-control" type="text" name="txtDirEscrito"
-                                onkeyup="javascript:this.value=this.value.toUpperCase();" style="width:100%;"
-                                placeholder="Introduzca La Dirección Del Lugar">
-                        </p>
-                        <p id="divMostrarDirListado" style="display: none;">
-                            <select name="cbDirListado" id="cbDirListado" title="Seleccione Una Dirección"
-                                class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                                tabindex="-1" aria-hidden="true">
+                        <p>
+                            <b>¿EN QUÉ DIRECCIÓN LO COMPRASTE?</b><strong class="etiqueta_roja"> *</strong>
+                            <select name="cbDireccion" id="cbDireccion" title="Seleccione Una Dirección"
+                                class="form-control select2 select2-hidden-accessible"
+                                style="text-transform:uppercase; width: 100%;"
+                                onkeyup="javascript:this.value=this.value.toUpperCase();" tabindex="-1"
+                                aria-hidden="true">
                                 <option value="-1" selected="selected">Seleccione Una Dirección</option>
                                 {% for fila in direcciones %}
                                 <option value="{{ fila[0] }}">{{ fila[1] }}</option>

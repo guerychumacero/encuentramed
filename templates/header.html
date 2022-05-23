@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>-->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -30,7 +31,6 @@
         }
 
         h6 {
-            margin: 10px;
             color: #000000;
         }
 
@@ -71,8 +71,8 @@
         }
 
         .logo img {
-            height: 300px;
-            margin-right: 10px;
+            width: 100%;
+            height: 100%;
         }
 
         .logo h1 {
@@ -155,6 +155,11 @@
             margin-right: 5px;
         }
 
+        .etiqueta_roja {
+            font-size: 18px;
+            color: red;
+        }
+
         @media (max-width:767px) {
             #footer h5 {
                 padding-left: 0;
@@ -168,49 +173,128 @@
         $(document).ready(function () {
 
             $('.select2').select2({
-                closeOnSelect: false
+                closeOnSelect: false,
+                tags: true
             });
 
-            $(document).on("change", "#cbInsumo", function () {
-                var insumoId = $("#cbInsumo").val();
-                load_data("carModeldata", insumoId);
-            });
+            $('#moreInformation').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var recipient0 = button.data('whatever0')
+                var recipient1 = button.data('whatever1')
+                var recipient2 = button.data('whatever2')
+                var recipient3 = button.data('whatever3')
+                var recipient4 = button.data('whatever4')
+                var recipient5 = button.data('whatever5')
+                var recipient6 = button.data('whatever6')
+                var recipient7 = button.data('whatever7')
+                var recipient8 = button.data('whatever8')
+                var recipient10 = button.data('whatever10')
+                var recipient11 = button.data('whatever11')
+                var recipient12 = button.data('whatever12')
+                var modal = $(this)
+                modal.find('.modal-nombre-comercial').text(recipient0)
+                modal.find('.modal-nombre-generico').text(recipient1)
+                modal.find('.modal-forma-farmaceutica').text(recipient2)
+                modal.find('.modal-concentracion').text(recipient3)
+                modal.find('.modal-presentacion').text(recipient4)
+                modal.find('.modal-laboratorio').text(recipient5)
+                modal.find('.modal-nombre-lugar').text(recipient6)
+                modal.find('.modal-direccion-lugar').text(recipient7)
+                modal.find('.modal-precio').text(recipient8 + ' Bs.')
+                var texto = ''
+                for (var i = 1; i < Math.trunc(recipient10 + 1); i++) {
+                    texto = texto + '<span class="fas fa-star" style="cursor: pointer; color: orange;"></span>'
+                }
+                for (var i = 1; i < Math.trunc(5 - recipient10 + 1); i++) {
+                    texto = texto + '<span class="fas fa-star" style="cursor: pointer; color: black;"></span>'
+                }
+                texto = texto + ' ' + recipient11 + ' %'
+                modal.find('.modal-puntuacion').html(texto)
+                $.ajax({
+                    url: "/updatePesoVerMas",
+                    method: "POST",
+                    data: { publicacionId: recipient12 },
+                    dataType: "json",
+                    success: function (data) {                        
+                    },
+                });                
+            })
 
-            $(document).on("change", "#lugarListado", function () {
-                var selLugarListado = $("#lugarListado").is(":checked");
-                if (selLugarListado == true) {
-                    $("#lugarPropio").prop("checked", false);
-                    $('#divMostrarLugarPropio').hide();
-                    $('#divMostrarLugarListado').show();
+            $("#btn-ver-no-val").click(function () {
+                if ($('#div-table-no-val').is(':visible')) {
+                    $('#div-table-no-val').hide();
+                } else {
+                    $('#div-table-no-val').show();
                 }
             });
 
-            $(document).on("change", "#lugarPropio", function () {
-                var selLugarPropio = $("#lugarPropio").is(":checked");
-                if (selLugarPropio == true) {
-                    $("#lugarListado").prop("checked", false);
-                    $('#divMostrarLugarListado').hide();
-                    $('#divMostrarLugarPropio').show();
-                }
+            $("#btn-cerrar-no-val").click(function () {
+                window.location.reload();
             });
 
-            $(document).on("change", "#direccionListado", function () {
-                var selLugarListado = $("#direccionListado").is(":checked");
-                if (selLugarListado == true) {
-                    $("#direccionPropio").prop("checked", false);
-                    $('#divMostrarDirPropio').hide();
-                    $('#divMostrarDirListado').show();
-                }
+            $("#btn-cerrar-val").click(function () {
+                window.location.reload();
             });
 
-            $(document).on("change", "#direccionPropio", function () {
-                var selLugarPropio = $("#direccionPropio").is(":checked");
-                if (selLugarPropio == true) {
-                    $("#direccionListado").prop("checked", false);
-                    $('#divMostrarDirListado').hide();
-                    $('#divMostrarDirPropio').show();
+            $('#moreInformationNoVal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var recipient0 = button.data('whatever0')
+                var recipient1 = button.data('whatever1')
+                var recipient2 = button.data('whatever2')
+                var recipient3 = button.data('whatever3')
+                var recipient4 = button.data('whatever4')
+                var recipient7 = button.data('whatever7')
+                var recipient8 = button.data('whatever8')
+                var modal = $(this)
+                modal.find('.modal-nombre-comercial-no-val').text(recipient1)
+                modal.find('.modal-nombre-lugar-no-val').text(recipient2)
+                modal.find('.modal-direccion-lugar-no-val').text(recipient3)
+                modal.find('.modal-precio-no-val').text(recipient4 + ' Bs.')
+                var texto = ''
+                for (var i = 1; i < Math.trunc(recipient7 + 1); i++) {
+                    texto = texto + '<span class="fas fa-star" style="cursor: pointer; color: orange;"></span>'
                 }
-            });
+                for (var i = 1; i < Math.trunc(5 - recipient7 + 1); i++) {
+                    texto = texto + '<span class="fas fa-star" style="cursor: pointer; color: black;"></span>'
+                }
+                texto = texto + ' ' + recipient8 + ' %'
+                modal.find('.modal-puntuacion-no-val').html(texto)
+                $.ajax({
+                    url: "/updatePesoVerMasNoVal",
+                    method: "POST",
+                    data: { publicacionId: recipient0 },
+                    dataType: "json",
+                    success: function (data) {                        
+                    },
+                });   
+            })
+
+            function validar_input_numeros(cadena) {
+                if (event.keyCode === 43 || event.keyCode === 45 || event.key === ','
+                    || event.keyCode === 101 || event.keyCode === 69 || event.key === '+' || event.key === '-') {
+                    //--no permitir los signos + y -
+                    return false;
+                }
+                var enteros = cadena.indexOf(".");//--Nro digitos antes del punto
+                var digitos = cadena.length;///--Total de de digitos 
+                if (event.key === '.' && digitos === 0) {//--Verificamos si es un punto y si hay digitos
+                    return false;//--no permitimos el punto
+                } else if (enteros >= 0) {//--Verificamos si hay enteros antes de un punto
+                    if (event.key === '.') {
+                        return false;//--Ya no se permite el punto
+                    }
+                    var restante = digitos - enteros; //--Sacamos los restantes tiene que ser < 3
+                    //--Verificamos q solo tenga 2 decimales
+                    if (restante <= 2) {
+                        return true;
+                    } else {
+                        return false;//--Ya esta en el limite de los decimales permitidos
+                    }
+                } else {
+                    //--permitimos escribir a voluntad
+                    return true;
+                }
+            }
 
             function load_data(type, insumoId) {
                 $.ajax({
@@ -243,12 +327,11 @@
     <header>
         <div class="logo">
             <div class="row">
-                <div class="col-md-3 align-middle text-center">
-                    <img src="{{ url_for('static', filename = 'images/encuentramed.png') }}" class="logo-img"
-                        style="margin-bottom: -90px; margin-top: -90px;">
+                <div class="col-md-5 align-middle text-center">
+                    <img src="{{ url_for('static', filename = 'images/encuentramed.png') }}" class="logo-img">
                 </div>
-                <div class="col-md-9 align-middle text-justify">
-                    <br>            
+                <div class="col-md-7 align-middle text-justify">
+                    <br>
                     <h6 style="font-family: Courier New;"><b>Es una página web retroalimentada gracias a las
                             publicaciones de
                             ustedes. Con su publicación indicándonos dónde compró su medicamento y a qué precio, ayuda a

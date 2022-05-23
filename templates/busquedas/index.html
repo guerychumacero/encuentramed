@@ -9,68 +9,162 @@
                 <div class="row text-left" style="vertical-align: middle; font-size: 12px;">
                     <div class="col-md-6">
                         <p><b>MEDICAMENTO:</b>
-                            <input type="text" class="form-control" name="keyword" placeholder="Buscar Por Nombre Del Medicamento"
-                                style="width: 100%" id="patron" autofocus="true">
+                            <input type="text" class="form-control" name="keyword"
+                                placeholder="Buscar Por Nombre Del Medicamento" style="width: 100%" id="patron"
+                                autofocus="true">
                         </p>
                     </div>
                     <div class="col-md-6">
                         <br>
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> <b> BUSCAR</b></button>                        
-                        <a href="{{url_for('create_publicacion')}}" class="btn btn-success"><i class="fa fa-copy"></i> <b>PUBLICAR</b></a>                       
-                        <a href="{{url_for('create_insumo')}}" class="btn btn-danger"><i class="fa fa-plus-circle"></i> <b>INSUMOS</b></a>                       
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> <b>
+                                BUSCAR</b></button>
+                        <a href="{{url_for('create_publicacion')}}" class="btn btn-success"><i class="fa fa-copy"></i>
+                            <b>PUBLICAR</b></a>
+                        <a href="{{url_for('create_insumo')}}" class="btn btn-danger"><i class="fa fa-plus-circle"></i>
+                            <b>INSUMOS</b></a>
+                        <a href="{{url_for('index')}}" class="btn btn-secondary"><i class="fa fa-backward"></i>
+                            <b>REGRESAR</b></a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <table class="table table-responsive table-bordered table-condensed table-hover table-sm"
-    style="font-size: 12px;">
-        <thead class="thead-dark">
-            <tr>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Nombre Comercial / Nombre Genérico
-                </th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Forma Farmacéutico / Concentración
-                </th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Presentación</th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Laboratorio</th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Lugar</th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Dirección</th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Precio</th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Fotos</th>
-                <th class="text-center" style="vertical-align: middle;" scope="col">Puntuación</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td class="text-left" style="vertical-align: middle;">{{ item[0] }} / {{ item[1] }}</td>
-                <td class="text-left" style="vertical-align: middle;">{{ item[2] }} / {{ item[3] }}</td>
-                <td class="text-left" style="vertical-align: middle;">{{ item[4] }}</td>
-                <td class="text-left" style="vertical-align: middle;">{{ item[5] }}</td>
-                <td class="text-left" style="vertical-align: middle;">{{ item[6] }}</td>
-                <td class="text-left" style="vertical-align: middle;">{{ item[7] }}</td>
-                <td class="text-center" style="vertical-align: middle;">{{ item[8] }} Bs.</td>
-                <td class="text-center" style="vertical-align: middle;">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fa fa-eye"></i> <b>Ver</b>
-                    </button>
-                </td>
-                <td class="text-center" style="vertical-align: middle; font-size: 12px;">
-                    {% for i in range(1,((item[10]+1)|int)) %}
-                    <span class="fas fa-star" style="cursor: pointer; color: orange;"></span>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {% for message in messages %}
+        <b>{{ message }}</b>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="card text-black bg-light mb-3">
+        <h6 class="card-header" style="background-color: #2A5491 !important; color: #ffffff;">
+            <b>A continuación se muestra un top 10 de medicamentos previamente validados y con mejor puntuación</b>
+        </h6>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-responsive-sm table-bordered table-condensed table-hover table-sm"
+                style="font-size: 12px;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center" style="vertical-align: middle;" scope="col" colspan="12">
+                            PUBLICACIONES VALIDADAS
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">NOMBRE COMERCIAL || NOMBRE
+                            GENÉRICO
+                        </th>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">FORMA FARMACÉUTICA ||
+                            CONCENTRACIÓN
+                        </th>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">PRECIO</th>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">PUNTUACIÓN</th>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">INFORMACIÓN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if items %}
+                    {% for item in items %}
+                    <tr>
+                        <td class="text-left" style="vertical-align: middle;">{{ item[0] }} || {{ item[1] }}</td>
+                        <td class="text-left" style="vertical-align: middle;">{{ item[2] }} || {{ item[3] }}</td>
+                        <td class="text-center" style="vertical-align: middle;">{{ item[8] }} Bs.</td>
+                        <td class="text-center" style="vertical-align: middle; font-size: 12px;">
+                            {% for i in range(1,((item[10]+1)|int)) %}
+                            <span class="fas fa-star" style="cursor: pointer; color: orange;"></span>
+                            {% endfor %}
+                            {% for i in range(1,((5-item[10]+1)|int)) %}
+                            <span class="fas fa-star" style="cursor: pointer; color: black;"></span>
+                            {% endfor %}
+                            {{ item[11] }} %
+                        </td>
+                        <td class="text-center" style="vertical-align: middle;">
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#moreInformation" data-whatever0="{{ item[0] }}"
+                                data-whatever1="{{ item[1] }}" data-whatever2="{{ item[2] }}"
+                                data-whatever3="{{ item[3] }}" data-whatever4="{{ item[4] }}"
+                                data-whatever5="{{ item[5] }}" data-whatever6="{{ item[6] }}"
+                                data-whatever7="{{ item[7] }}" data-whatever8="{{ item[8] }}"
+                                data-whatever10="{{ item[10] }}" data-whatever11="{{ item[11] }}"
+                                data-whatever12="{{ item[12] }}">
+                                <i class="fa fa-eye"></i> <b>Ver Más</b>
+                            </button>
+                        </td>
+                    </tr>
                     {% endfor %}
-                    {% for i in range(1,((5-item[10]+1)|int)) %}
-                    <span class="fas fa-star" style="cursor: pointer; color: black;"></span>
-                    {% endfor %}  
-                    {{ item[11] }}                                      
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    {% else %}
+                    <tr>
+                        <td class="text-center" style="vertical-align: middle;" colspan="12">
+                            NO SE ENCONTRARON RESULTADOS.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a id="btn-ver-no-val" class="btn btn-link">
+        <u><b>Resultados en publicaciones no validadas. Click para ver información.</b></u></a>
+    <div id="div-table-no-val" class="row" style="display: none;">
+        <div class="col-md-12">
+            <table class="table table-responsive-sm table-bordered table-condensed table-hover table-sm"
+                style="font-size: 12px;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center" style="vertical-align: middle;" scope="col" colspan="12">
+                            PUBLICACIONES NO VALIDADAS
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">NOMBRE COMERCIAL</th>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">PRECIO</th>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">PUNTUACIÓN</th>
+                        <th class="text-center" style="vertical-align: middle;" scope="col">INFORMACIÓN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if itemsNoVal %}
+                    {% for item in itemsNoVal %}
+                    <tr>
+                        <td class="text-left" style="vertical-align: middle;">{{ item[1] }}</td>
+                        <td class="text-center" style="vertical-align: middle;">{{ item[4] }} Bs.</td>
+                        <td class="text-center" style="vertical-align: middle; font-size: 12px;">
+                            {% for i in range(1,((item[7]+1)|int)) %}
+                            <span class="fas fa-star" style="cursor: pointer; color: orange;"></span>
+                            {% endfor %}
+                            {% for i in range(1,((5-item[7]+1)|int)) %}
+                            <span class="fas fa-star" style="cursor: pointer; color: black;"></span>
+                            {% endfor %}
+                            {{ item[8] }} %
+                        </td>
+                        <td class="text-center" style="vertical-align: middle;">
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#moreInformationNoVal" data-whatever0="{{ item[0] }}"
+                                data-whatever1="{{ item[1] }}" data-whatever2="{{ item[2] }}"
+                                data-whatever3="{{ item[3] }}" data-whatever4="{{ item[4] }}"
+                                data-whatever7="{{ item[7] }}" data-whatever8="{{ item[8] }}">
+                                <i class="fa fa-eye"></i> <b>Ver Más</b>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td class="text-center" style="vertical-align: middle;" colspan="12">
+                            NO SE ENCONTRARON RESULTADOS.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<nav aria-label="Page navigation">
+<!--<nav aria-label="Page navigation">
     <ul class="pagination">
         <li>
             <a href="/busquedas/index?page={{ page - 1 }}" aria-label="Previous">
@@ -86,7 +180,7 @@
             </a>
         </li>
     </ul>
-</nav>
+</nav>-->
 {% include 'footer.html' %}
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -136,6 +230,245 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="moreInformation" tabindex="-1" role="dialog" aria-labelledby="moreInformationLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center" style="background: #2A5491; color: #ffffff;">
+                <h5 class="modal-title" id="moreInformationLabel"><b>INFORMACIÓN DETALLADA</b></h5>
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>-->
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row" style="margin-left: 10px; margin-right: 10px">
+                        <div class="table-responsive">
+                            <table border="2"
+                                class="table table-responsive-sm table-bordered table-condensed table-hover table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Nombre Comercial</strong>
+                                        </td>
+                                        <td class="modal-nombre-comercial" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Nombre Genérico</strong>
+                                        </td>
+                                        <td class="modal-nombre-generico" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Forma Farmacéutica</strong>
+                                        </td>
+                                        <td class="modal-forma-farmaceutica" style='vertical-align: middle;'
+                                            align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Concentración</strong>
+                                        </td>
+                                        <td class="modal-concentracion" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Presentación</strong>
+                                        </td>
+                                        <td class="modal-presentacion" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Laboratorio</strong>
+                                        </td>
+                                        <td class="modal-laboratorio" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Nombre Lugar</strong>
+                                        </td>
+                                        <td class="modal-nombre-lugar" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Dirección Lugar</strong>
+                                        </td>
+                                        <td class="modal-direccion-lugar" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Precio</strong>
+                                        </td>
+                                        <td class="modal-precio" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Puntuación</strong>
+                                        </td>
+                                        <td class="modal-puntuacion" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Fotos</strong>
+                                        </td>
+                                        <td style='vertical-align: middle;' align='left'>
+                                            Sin fotos de respaldo
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <button type="button" id="btn-cerrar-val" class="btn btn-secondary">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="moreInformationNoVal" tabindex="-1" role="dialog"
+    aria-labelledby="moreInformationNoValLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center" style="background: #2A5491; color: #ffffff;">
+                <h5 class="modal-title" id="moreInformationNoValLabel"><b>INFORMACIÓN DETALLADA</b></h5>
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>-->
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row" style="margin-left: 10px; margin-right: 10px">
+                        <div class="table-responsive">
+                            <table border="2"
+                                class="table table-responsive-sm table-bordered table-condensed table-hover table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Nombre Comercial</strong>
+                                        </td>
+                                        <td class="modal-nombre-comercial-no-val" style='vertical-align: middle;'
+                                            align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Nombre Lugar</strong>
+                                        </td>
+                                        <td class="modal-nombre-lugar-no-val" style='vertical-align: middle;'
+                                            align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Dirección Lugar</strong>
+                                        </td>
+                                        <td class="modal-direccion-lugar-no-val" style='vertical-align: middle;'
+                                            align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Precio</strong>
+                                        </td>
+                                        <td class="modal-precio-no-val" style='vertical-align: middle;' align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Puntuación</strong>
+                                        </td>
+                                        <td class="modal-puntuacion-no-val" style='vertical-align: middle;'
+                                            align='left'>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class='success'
+                                            style='vertical-align: middle; background: #2A5491; color: #ffffff;'
+                                            align='left'>
+                                            <strong>Fotos</strong>
+                                        </td>
+                                        <td style='vertical-align: middle;' align='left'>
+                                            Sin fotos de respaldo
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <button type="button" id="btn-cerrar-no-val" class="btn btn-secondary"><b>CERRAR</b></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
